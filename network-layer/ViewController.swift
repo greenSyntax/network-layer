@@ -9,7 +9,7 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    var client: NetworkClient = URLSessionApiClient()
+    var client: NetworkClient = AlamofireApiClient() //URLSessionApiClient()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,15 +19,15 @@ class ViewController: UIViewController {
     }
     
     func getRequest() {
-        let postsAPI = URL(string: "https://jsonplaceholder.typicode.com/posts")!
+        let postsAPI = URL(string: "https://jsonplaceholder.typicode.com/posts/1")!
         let apiRequest = APIRequest(url: postsAPI, method: .GET, headers: nil, queryParams: nil, body: nil)
         
         client.dataTask(apiRequest) { (_ result: Result<PostModel, Error>) in
             switch result {
             case .failure(let error):
-                print(error)
+                print("🔴 GET Error: \(error)")
             case .success(let data):
-                print("Data: \(data)")
+                print("🟢 GET Data: \(data)")
             }
         }
     }
@@ -41,9 +41,9 @@ class ViewController: UIViewController {
         client.dataTask(apiRequest) { (_ result: Result<PostModel, Error>) in
             switch result {
             case .failure(let error):
-                print(error)
+                print("🔴 POST Error: \(error)")
             case .success(let data):
-                print("Data: \(data)")
+                print("🟢 POST Data: \(data)")
             }
         }
     }
